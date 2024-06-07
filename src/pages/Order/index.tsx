@@ -3,6 +3,7 @@ import { useContext, useState } from 'react';
 import {  SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import { AuthContext } from '../../contexts/AuthContext';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import {Feather} from '@expo/vector-icons'
 
 type RouteDetailParams = {
   Order:{
@@ -18,10 +19,44 @@ const route = useRoute<OrderRouteProps>()
 
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Mesa {route.params.number}</Text>
-   
-    </SafeAreaView>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Mesa {route.params.number}</Text>
+        <TouchableOpacity>
+          <Feather name="trash-2" size={28} color="#ff3f4b"/>
+        </TouchableOpacity>
+      </View>  
+
+      <TouchableOpacity style={styles.input}>
+        <Text style={{color:'#fff'}}>Pizza</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.input}>
+        <Text style={{color:'#fff'}}>Pizza d efrango</Text>
+      </TouchableOpacity>
+
+      <View style={styles.qtdContainer}>
+        <Text style={styles.qtdText}>Quantidade</Text>
+        <TextInput
+          style={[styles.input, {width:'60%', textAlign:'center'}]}
+          placeholder='2'
+          placeholderTextColor="#f0f0f0"
+          keyboardType='numeric'   
+        />
+      </View> 
+
+      <View style={styles.qtdContainer}>
+      <TouchableOpacity style={styles.buttonAdd} >
+          <Text style={styles.buttonText}>
+           +
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} >
+          <Text style={styles.buttonText}>
+           Avançar
+          </Text>
+        </TouchableOpacity>
+      </View> 
+    </View>
   );
 }
 
@@ -29,37 +64,69 @@ const route = useRoute<OrderRouteProps>()
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    justifyContent:'center',
+    backgroundColor:'#1d1d2e',
+    paddingVertical:'5%',
+    paddingHorizontal:'4%',
+    paddingStart:'4%'
+
+  },
+
+  header:{
+    flexDirection:'row',
+    marginBottom:12,
     alignItems:'center',
-    backgroundColor:'#1d1d2e'
+    marginTop:24
+
   },
 
   title:{  
     fontSize:30,
     fontWeight:'bold',
     color:'#fff',
-    marginBottom:24,    
+    marginRight:14
+    
   },
 
   input:{
-    width:'90%',
-    height:60,
+    width:'100%',
+    height:40,
     backgroundColor:'#101026',
     color: '#fff',
+    marginBottom:12,
     borderRadius: 4,
     paddingHorizontal:8,
-    textAlign:'center',
+    justifyContent:'center',
     fontSize:20,
   },
 
+  qtdContainer:{
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'space-between'
+  },
+
+  qtdText:{
+  fontSize:20,
+  fontWeight: 'bold',
+  color:'#fff'
+  },
+
+  buttonAdd:{
+    width:'20%',
+    height:40,
+    backgroundColor:'#3fd1ff',
+    borderRadius: 4,
+    justifyContent:'center',
+    alignItems:'center',   
+  },
+
   button:{
-    width:'90%',
+    width:'75%',
     height:40,
     backgroundColor:'#3fffa3',
     borderRadius: 4,
     justifyContent:'center',
-    alignItems:'center',
-    marginVertical:12
+    alignItems:'center',   
   },
 
   buttonText:{
