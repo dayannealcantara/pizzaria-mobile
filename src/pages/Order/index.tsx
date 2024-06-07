@@ -16,6 +16,9 @@ import { api } from '../../services/api'
 import { ModalPicker } from '../../components/ModalPicker'
 import { ListItem } from '../../components/ListItem'
 
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { StackParmsList }  from '../../routes/app.routes'
+ 
 
 type RouteDetailParams = {
   Order:{
@@ -45,7 +48,7 @@ type OrderRouteProps = RouteProp<RouteDetailParams, 'Order'>;
 
 export default function Order(){
   const route = useRoute<OrderRouteProps>();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<StackParmsList>>();
 
   const [category, setCategory] = useState<CategoryProps[] | []>([]);
   const [categorySelected, setCategorySelected] = useState<CategoryProps | undefined>()
@@ -116,6 +119,7 @@ export default function Order(){
     setProductSelected(item);
   }
 
+ 
   async function handleAdd(){
     const response = await api.post('/order/add', {
       order_id: route.params?.order_id,
@@ -129,12 +133,34 @@ export default function Order(){
       name: productSelected?.name as string,
       amount: amount
     }
+
+
     setItems(oldArray => [...oldArray, data])
+
   }
 
+
+  async function handleDeleteItem(item_id: string){
+    await api.delete('/order/remove', {
+      params:{
+        item_id: item_id
+      }
+    })
+
+
+    let removeItem = items.filter( item => {
+      return (item.id !== item_id)
+    })
+
+    setItems(removeItem)
+
+  }
+
+
+
+
   return(
-    <View style={styles.container}>
-      
+    <View style={styles.container}>      
       <View style={styles.header}>
         <Text style={styles.title}>Mesa {route.params.number}</Text>
         {items.length === 0 && (
@@ -184,19 +210,22 @@ export default function Order(){
         </TouchableOpacity>
       </View>
 
+
       <FlatList
         showsVerticalScrollIndicator={false}
         style={{ flex: 1, marginTop: 24 }}
         data={items}
         keyExtractor={(item) => item.id }
-        renderItem={ ({ item }) =>  <ListItem data={item} /> }
+        renderItem={ ({ item }) =>  <ListItem data={item} deleteItem={handleDeleteItem} /> }
       />
+
 
       <Modal
         transparent={true}
         visible={modalCategoryVisible}
         animationType="fade"
       >
+
         <ModalPicker
           handleCloseModal={ () => setModalCategoryVisible(false) }
           options={category}
