@@ -119,7 +119,7 @@ export default function Order(){
     setProductSelected(item);
   }
 
- 
+  // adcionando um produto nessa mesa
   async function handleAdd(){
     const response = await api.post('/order/add', {
       order_id: route.params?.order_id,
@@ -147,7 +147,7 @@ export default function Order(){
       }
     })
 
-
+    // após remover da api removemos esse item da nossa lista de items
     let removeItem = items.filter( item => {
       return (item.id !== item_id)
     })
@@ -157,10 +157,16 @@ export default function Order(){
   }
 
 
-
+  function handleFinishOrder(){
+    navigation.navigate("FinishOrder", { 
+      number: route.params?.number, 
+      order_id: route.params?.order_id
+    } )
+  }
 
   return(
-    <View style={styles.container}>      
+    <View style={styles.container}>
+      
       <View style={styles.header}>
         <Text style={styles.title}>Mesa {route.params.number}</Text>
         {items.length === 0 && (
@@ -205,6 +211,7 @@ export default function Order(){
         <TouchableOpacity 
           style={[styles.button, { opacity: items.length === 0 ? 0.3 : 1 } ]}
           disabled={items.length === 0}
+          onPress={handleFinishOrder}
         >
            <Text style={styles.buttonText}>Avançar</Text> 
         </TouchableOpacity>
