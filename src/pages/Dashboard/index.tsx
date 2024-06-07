@@ -5,6 +5,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParmsList } from '../../routes/app.routes';
+import { api } from '../../services/api';
 
 
 export default function Dashboard() {
@@ -17,7 +18,11 @@ export default function Dashboard() {
     if(number === ''){
       return
     }
-    navigation.navigate('Order', {number: number, order_id:''})
+    const response = await api.post('/order', {
+      table: Number(number)
+    })
+    navigation.navigate('Order', {number: number, order_id:response.data.id})
+    setNumber('')
 
   }
 
