@@ -15,8 +15,8 @@ Este aplicativo mobile foi desenvolvido utilizando React Native e Expo como part
 
 ## Repositórios Relacionados
 
-* Backend: Link para o repositório do frontend
-* Frontend: Link para o repositório do backend
+* [Link para o repositório do frontend](https://github.com/dayannealcantara/pizzaria-Backend)
+* [Link para o repositório do backend](https://github.com/dayannealcantara/pizzaria---frontend)
 
 ## Local de Desenvolvimento
 
