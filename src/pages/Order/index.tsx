@@ -133,10 +133,7 @@ export default function Order(){
       name: productSelected?.name as string,
       amount: amount
     }
-
-
     setItems(oldArray => [...oldArray, data])
-
   }
 
 
@@ -147,13 +144,10 @@ export default function Order(){
       }
     })
 
-    // após remover da api removemos esse item da nossa lista de items
     let removeItem = items.filter( item => {
       return (item.id !== item_id)
     })
-
     setItems(removeItem)
-
   }
 
 
@@ -226,37 +220,29 @@ export default function Order(){
         renderItem={ ({ item }) =>  <ListItem data={item} deleteItem={handleDeleteItem} /> }
       />
 
-
       <Modal
         transparent={true}
         visible={modalCategoryVisible}
         animationType="fade"
       >
-
         <ModalPicker
           handleCloseModal={ () => setModalCategoryVisible(false) }
           options={category}
           selectedItem={ handleChangeCategory }
         />
-
       </Modal>
-
 
       <Modal
         transparent={true}
         visible={modalProductVisible}
         animationType="fade"
       >
-
         <ModalPicker
           handleCloseModal={ () => setModalProductVisible(false) }
           options={products}
           selectedItem={ handleChangeProduct }
         />        
-
       </Modal>
-
-
     </View>
   )
 }
